@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     #region Static Variables
     public float MAX_SPEED = 3.0f; // Limit character to this speed
@@ -14,27 +15,29 @@ public class PlayerMovement : MonoBehaviour {
     public bool canDoubleJump;
 
     private Rigidbody2D rb2d;
-    private Animator anim;
+    //private Animator anim;
 
-    void Start () {
+    void Start()
+    {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-        anim = gameObject.GetComponent<Animator>();
+        //anim = gameObject.GetComponentInChildren<Animator>();
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        anim.SetBool("isGrounded", grounded);
-        anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
+    }
 
-        if (Input.GetAxis("Horizontal") > 0.1f)
-            transform.localScale = new Vector3(1, 1, 1);
+    // Update is called once per frame
+    void Update()
+    {
+        //anim.SetBool("isGrounded", grounded);
+        //anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
 
-            //transform.localScale.Set(-1, 1, 1);
+        //if (Input.GetAxis("Horizontal") > 0.1f)
+        //    transform.localScale = new Vector3(1, 1, 1);
 
-        if (Input.GetAxis("Horizontal") < -0.1f)
-            transform.localScale = new Vector3(-1, 1, 1);
-        
+        //    transform.localScale.Set(-1, 1, 1);
+
+        //if (Input.GetAxis("Horizontal") < -0.1f)
+        //    transform.localScale = new Vector3(-1, 1, 1);
+
         if (Input.GetButtonDown("Jump"))
         {
             if (grounded)
@@ -42,21 +45,23 @@ public class PlayerMovement : MonoBehaviour {
                 rb2d.AddForce(Vector2.up * JUMP_POWER);
                 canDoubleJump = true;
             }
+
             else
             {
                 if (canDoubleJump)
                 {
+
                     rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
                     rb2d.AddForce(Vector2.up * JUMP_POWER * 0.75f);
                     canDoubleJump = false;
                 }
             }
         }
-            
     }
 
     // FixedUpdate is used for Adjusting physics (Rigidbody) objects
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         Vector3 easeVelocity = rb2d.velocity;
         easeVelocity.x *= 0.75f;
 
@@ -73,5 +78,5 @@ public class PlayerMovement : MonoBehaviour {
 
         if (rb2d.velocity.x < -MAX_SPEED)
             rb2d.velocity = new Vector2(-MAX_SPEED, rb2d.velocity.y);
-    } 
+    }
 }

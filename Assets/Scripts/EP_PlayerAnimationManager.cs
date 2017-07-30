@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EP_PlayerMoveScript : MonoBehaviour
+public class EP_PlayerAnimationManager : MonoBehaviour
 {
     
     #region PlayerSprites
@@ -23,14 +23,20 @@ public class EP_PlayerMoveScript : MonoBehaviour
 
     public GameObject       playerRightFoot;
     private SpriteRenderer  rightfootSprite;
+
+    public GameObject       playerLeftSword;
+    private SpriteRenderer  leftswordSprite;
+
+    public GameObject       playerRightSword;
+    private SpriteRenderer  rightswordSprite;
     #endregion
 
     public GameObject       PlayerContainer;
     private Animator        playerAnim;
     private Rigidbody2D     playerRB;
 
-    public float speed =    7.5f;
-    private float time;
+    //public float speed =    7.5f;
+    //private float time;
 
     private bool rightFace = true;
     
@@ -47,6 +53,11 @@ public class EP_PlayerMoveScript : MonoBehaviour
         lefthandSprite =    playerLeftHand.GetComponent<SpriteRenderer>();
         leftfootSprite =    playerLeftFoot.GetComponent<SpriteRenderer>();
         rightfootSprite =   playerRightFoot.GetComponent<SpriteRenderer>();
+        leftswordSprite =   playerLeftSword.GetComponent<SpriteRenderer>();
+        rightswordSprite =  playerRightSword.GetComponent<SpriteRenderer>();
+
+        rightswordSprite.enabled = false;
+        leftswordSprite.enabled = true;
         
     }
     
@@ -54,14 +65,14 @@ public class EP_PlayerMoveScript : MonoBehaviour
     void Update()
     {
         
-        if (time >= 0.75f)
-            time = 0.75f;
+        //if (time >= 0.75f)
+        //    time = 0.75f;
 
         if(Input.GetKey(KeyCode.D))
         {
 
             rightFace = true;
-            playerRB.AddForce(Vector2.right * (speed * time));
+            //playerRB.AddForce(Vector2.right * (speed * time));
             playerAnim.SetBool("runningRight", true);
             playerAnim.SetBool("idle", false);
 
@@ -71,6 +82,8 @@ public class EP_PlayerMoveScript : MonoBehaviour
             lefthandSprite.sortingOrder =   2;
             leftfootSprite.flipX =          false;
             rightfootSprite.flipX =         false;
+            rightswordSprite.enabled =      false;
+            leftswordSprite.enabled =       true;
 
             if (Input.GetKey(KeyCode.A))
             {
@@ -84,6 +97,8 @@ public class EP_PlayerMoveScript : MonoBehaviour
                 lefthandSprite.sortingOrder =   0;
                 leftfootSprite.flipX =          true;
                 rightfootSprite.flipX =         true;
+                rightswordSprite.enabled =      true;
+                leftswordSprite.enabled =       false;
 
             }
         }
@@ -92,7 +107,7 @@ public class EP_PlayerMoveScript : MonoBehaviour
         {
 
             rightFace = true;
-            playerRB.velocity = Vector2.right * 2;
+            //playerRB.velocity = Vector2.right * 2;
             playerAnim.SetBool("runningRight", false);
             playerAnim.SetBool("idle", true);
 
@@ -102,7 +117,7 @@ public class EP_PlayerMoveScript : MonoBehaviour
         {
 
             rightFace = false;
-            playerRB.AddForce(Vector2.left * (speed * time));
+            //playerRB.AddForce(Vector2.left * (speed * time));
             playerAnim.SetBool("runningLeft", true);
             playerAnim.SetBool("idle", false);
 
@@ -112,6 +127,8 @@ public class EP_PlayerMoveScript : MonoBehaviour
             lefthandSprite.sortingOrder =   0;
             leftfootSprite.flipX =          true;
             rightfootSprite.flipX =         true;
+            rightswordSprite.enabled =      true;
+            leftswordSprite.enabled =       false;
 
             if (Input.GetKey(KeyCode.D))
             {
@@ -125,28 +142,23 @@ public class EP_PlayerMoveScript : MonoBehaviour
                 lefthandSprite.sortingOrder =   2;
                 leftfootSprite.flipX =          false;
                 rightfootSprite.flipX =         false;
+                rightswordSprite.enabled =      false;
+                leftswordSprite.enabled =       true;
 
             }
-
         }
 
         else if (Input.GetKeyUp(KeyCode.A))
         {
 
             rightFace = false;
-            playerRB.velocity = Vector2.left * 2;
+            //playerRB.velocity = Vector2.left * 2;
             playerAnim.SetBool("runningLeft", false);
             playerAnim.SetBool("idle", true);
 
         }
+        
 
-        else
-        {
-            
-            playerRB.AddForce(playerRB.velocity / 20);
-
-        }
-
-        time += Time.deltaTime;
+        //time += Time.deltaTime;
     }
 }
